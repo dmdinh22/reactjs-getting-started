@@ -28,7 +28,8 @@ class App extends React.Component {
     };
 
     render() {
-        //pass the reference to the incrementCounter function into the Button component props
+        // pass the reference to the incrementCounter function down to the Button component props
+        // via the onClickFunction property
         return (
             <div>
                 <Button
