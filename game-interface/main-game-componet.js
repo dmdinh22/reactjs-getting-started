@@ -1,11 +1,18 @@
 const Stars = props => {
     const numberOfStars = 1 + Math.floor(Math.random() * 9);
 
-    let stars = [];
-    for (let i = 0; i < numberOfStars; i++) {
-        stars.push(<i key={i} className="fa fa-star" />);
-    }
-    return <div className="col-5">{stars}</div>;
+    // let stars = [];
+    // for (let i=0; i<numberOfStars; i++) {
+    // 	stars.push(<i key={i} className="fa fa-star"></i>)
+    // }
+
+    return (
+        <div className="col-5">
+            {_.range(numberOfStars).map(i => (
+                <i key={i} className="fa fa-star" />
+            ))}
+        </div>
+    );
 };
 
 const Button = props => {
@@ -17,16 +24,23 @@ const Button = props => {
 };
 
 const Answer = props => {
-    return <div className="col-5">...</div>;
+    return (
+        <div className="col-5">
+            <span>5</span>
+            <span>6</span>
+        </div>
+    );
 };
 
 const Numbers = props => {
+    const arrayOfNumbers = _.range(1, 10);
+
     return (
         <div className="card text-center">
             <div>
-                <span>1</span>
-                <span className="selected">2</span>
-                <span className="used">3</span>
+                {arrayOfNumbers.map((number, i) => (
+                    <span key={i}>{number}</span>
+                ))}
             </div>
         </div>
     );
