@@ -33,18 +33,20 @@ const Answer = props => {
 };
 
 const Numbers = props => {
-    const arrayOfNumbers = _.range(1, 10);
+    //const arrayOfNumbers = _.range(1, 10);
 
     return (
         <div className="card text-center">
             <div>
-                {arrayOfNumbers.map((number, i) => (
+                {Numbers.list.map((number, i) => (
                     <span key={i}>{number}</span>
                 ))}
             </div>
         </div>
     );
 };
+
+Numbers.list = _.range(1, 10);
 
 class Game extends React.Component {
     render() {
