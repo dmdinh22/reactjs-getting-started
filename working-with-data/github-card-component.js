@@ -18,7 +18,7 @@ const CardList = props => {
     return (
         <div>
             {props.cards.map(card => (
-                <Card {...card} />
+                <Card key={card.id} {...card} />
             ))}
         </div>
     );
@@ -37,6 +37,9 @@ class Form extends React.Component {
                 // access the onSubmit prop passed down into Form component to invoke
                 // the function reference for addNewCard of Form component
                 this.props.onSubmit(res.data);
+
+                // reset input fiueld
+                this.setState({ userName: '' });
             });
     };
 
@@ -57,19 +60,7 @@ class Form extends React.Component {
 
 class App extends React.Component {
     state = {
-        cards: [
-            {
-                name: "Paul O'Shannessy",
-                avatar_url: 'https://avatars.githubusercontent.com/u/8445?v=3',
-                company: 'Facebook'
-            },
-            {
-                name: 'Ben Alpert',
-                avatar_url:
-                    'https://avatars3.githubusercontent.com/u/7585659?s=460&v=4',
-                company: 'Facebook'
-            }
-        ]
+        cards: []
     };
 
     // function to be passed as a ref as part of the props object for Form Component
