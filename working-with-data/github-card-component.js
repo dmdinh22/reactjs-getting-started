@@ -34,6 +34,8 @@ class Form extends React.Component {
         axios
             .get(`https://api.github.com/users/${this.state.userName}`)
             .then(res => {
+                // access the onSubmit prop passed down into Form component to invoke
+                // the function reference for addNewCard of Form component
                 this.props.onSubmit(res.data);
             });
     };
@@ -70,6 +72,7 @@ class App extends React.Component {
         ]
     };
 
+    // function to be passed as a ref as part of the props object for Form Component
     addNewCard = cardInfo => {
         this.setState(prevState => ({
             cards: prevState.cards.concat(cardInfo)
