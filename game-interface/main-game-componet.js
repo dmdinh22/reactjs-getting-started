@@ -20,6 +20,7 @@ const Button = props => {
             button = (
                 <button
                     className="btn btn-success"
+                    onClick={props.acceptAnswer}
                     disabled={props.selectedNumbers.length === 0}
                 >
                     <i className="fa fa-check" />
@@ -67,6 +68,9 @@ const Numbers = props => {
 
     const numberClassName = number => {
         // check if the numbers selected match the number array to apply class
+        if (props.usedNumbers.indexOf(number) >= 0) {
+            return 'used';
+        }
         if (props.selectedNumbers.indexOf(number) >= 0) {
             return 'selected';
         }
@@ -94,6 +98,7 @@ class Game extends React.Component {
     state = {
         selectedNumbers: [],
         randomNumberOfStars: 1 + Math.floor(Math.random() * 9),
+        usedNumbers: [],
         answerIsCorrect: null
     };
 
@@ -125,11 +130,23 @@ class Game extends React.Component {
         }));
     };
 
+    acceptAnswer = () => {
+        this.setState(prevState => ({
+            usedNumbers: prevState.usedNumbers.concat(
+                prevState.selectedNumbers
+            ),
+            selectedNumbers: [],
+            answerIsCorrect: null,
+            randomNumberOfStars: 1 + Math.floor(Math.random() * 9)
+        }));
+    };
+
     render() {
         const {
             selectedNumbers,
             randomNumberOfStars,
-            answerIsCorrect
+            answerIsCorrect,
+            usedNumbers
         } = this.state;
 
         return (
@@ -141,6 +158,7 @@ class Game extends React.Component {
                     <Button
                         selectedNumbers={selectedNumbers}
                         checkAnswer={this.checkAnswer}
+                        acceptAnswer={this.acceptAnswer}
                         answerIsCorrect={answerIsCorrect}
                     />
                     <Answer
@@ -152,6 +170,7 @@ class Game extends React.Component {
                 <Numbers
                     selectedNumbers={selectedNumbers}
                     selectNumber={this.selectNumber}
+                    usedNumbers={usedNumbers}
                 />
             </div>
         );
