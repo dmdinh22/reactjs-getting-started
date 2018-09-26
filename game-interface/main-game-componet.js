@@ -108,9 +108,11 @@ const Numbers = props => {
 Numbers.list = _.range(1, 10);
 
 class Game extends React.Component {
+    static randomNumber = () => 1 + Math.floor(Math.random() * 9);
+
     state = {
         selectedNumbers: [],
-        randomNumberOfStars: 1 + Math.floor(Math.random() * 9),
+        randomNumberOfStars: Game.randomNumber(),
         usedNumbers: [],
         answerIsCorrect: null,
         redraws: 5
@@ -151,7 +153,7 @@ class Game extends React.Component {
             ),
             selectedNumbers: [],
             answerIsCorrect: null,
-            randomNumberOfStars: 1 + Math.floor(Math.random() * 9)
+            randomNumberOfStars: Game.randomNumber()
         }));
     };
 
@@ -161,7 +163,7 @@ class Game extends React.Component {
         }
 
         this.setState(prevState => ({
-            randomNumberOfStars: 1 + Math.floor(Math.random() * 9),
+            randomNumberOfStars: Game.randomNumber(),
             answerIsCorrect: null,
             selectedNumbers: [],
             redraws: prevState.redraws - 1
