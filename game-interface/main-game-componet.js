@@ -1,6 +1,4 @@
 const Stars = props => {
-    const numberOfStars = 1 + Math.floor(Math.random() * 9);
-
     // let stars = [];
     // for (let i=0; i<numberOfStars; i++) {
     // 	stars.push(<i key={i} className="fa fa-star"></i>)
@@ -8,7 +6,7 @@ const Stars = props => {
 
     return (
         <div className="col-5">
-            {_.range(numberOfStars).map(i => (
+            {_.range(props.numberOfStars).map(i => (
                 <i key={i} className="fa fa-star" />
             ))}
         </div>
@@ -47,7 +45,11 @@ const Numbers = props => {
         <div className="card text-center">
             <div>
                 {Numbers.list.map((number, i) => (
-                    <span key={i} className={numberClassName(number)}>
+                    <span
+                        key={i}
+                        className={numberClassName(number)}
+                        onClick={() => props.selectNumber(number)}
+                    >
                         {number}
                     </span>
                 ))}
@@ -59,7 +61,14 @@ Numbers.list = _.range(1, 10);
 
 class Game extends React.Component {
     state = {
-        selectedNumbers: []
+        selectedNumbers: [],
+        randomNumberOfStars: 1 + Math.floor(Math.random() * 9)
+    };
+
+    selectNumber = clickedNumber => {
+        this.setState(prevState => ({
+            selectedNumbers: prevState.selectedNumbers.concat(clickedNumber)
+        }));
     };
 
     render() {
@@ -68,12 +77,15 @@ class Game extends React.Component {
                 <h3>Play Nine</h3>
                 <hr />
                 <div className="row">
-                    <Stars />
+                    <Stars numberOfStars={this.state.randomNumberOfStars} />
                     <Button />
                     <Answer selectedNumbers={this.state.selectedNumbers} />
                 </div>
                 <br />
-                <Numbers selectedNumbers={this.state.selectedNumbers} />
+                <Numbers
+                    selectedNumbers={this.state.selectedNumbers}
+                    selectNumber={this.selectNumber}
+                />
             </div>
         );
     }
