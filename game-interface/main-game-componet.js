@@ -14,11 +14,40 @@ const Stars = props => {
 };
 
 const Button = props => {
-    return (
-        <div className="col-2">
-            <button disabled={props.selectedNumbers.length === 0}>=</button>
-        </div>
-    );
+    let button;
+    switch (props.answerIsCorrect) {
+        case true:
+            button = (
+                <button
+                    className="btn btn-success"
+                    disabled={props.selectedNumbers.length === 0}
+                >
+                    <i className="fa fa-check" />
+                </button>
+            );
+            break;
+        case false:
+            button = (
+                <button
+                    className="btn btn-danger"
+                    disabled={props.selectedNumbers.length === 0}
+                >
+                    <i className="fa fa-times" />
+                </button>
+            );
+            break;
+        default:
+            button = (
+                <button
+                    onClick={props.checkAnswer}
+                    disabled={props.selectedNumbers.length === 0}
+                >
+                    =
+                </button>
+            );
+            break;
+    }
+    return <div className="col-2">{button}</div>;
 };
 
 const Answer = props => {
@@ -64,7 +93,8 @@ Numbers.list = _.range(1, 10);
 class Game extends React.Component {
     state = {
         selectedNumbers: [],
-        randomNumberOfStars: 1 + Math.floor(Math.random() * 9)
+        randomNumberOfStars: 1 + Math.floor(Math.random() * 9),
+        answerIsCorrect: null
     };
 
     selectNumber = clickedNumber => {
@@ -85,8 +115,20 @@ class Game extends React.Component {
         }));
     };
 
+    checkAnswer = () => {
+        this.setState(prevState => ({
+            answerIsCorrect:
+                prevState.randomNumberOfStars ===
+                prevState.selectedNumbers.reduce((acc, n) => acc + n, 0)
+        }));
+    };
+
     render() {
-        const { selectedNumbers, randomNumberOfStars } = this.state;
+        const {
+            selectedNumbers,
+            randomNumberOfStars,
+            answerIsCorrect
+        } = this.state;
 
         return (
             <div className="container">
@@ -94,7 +136,11 @@ class Game extends React.Component {
                 <hr />
                 <div className="row">
                     <Stars numberOfStars={randomNumberOfStars} />
-                    <Button selectedNumbers={selectedNumbers} />
+                    <Button
+                        selectedNumbers={selectedNumbers}
+                        checkAnswer={this.checkAnswer}
+                        answerIsCorrect={answerIsCorrect}
+                    />
                     <Answer
                         selectedNumbers={selectedNumbers}
                         unselectNumber={this.unselectNumber}
